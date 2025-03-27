@@ -4,7 +4,16 @@ server:
 spring:
   cloud:
     gateway:
-      routes: ## REST CLIENT --> http://localhost:4004/api/patients
+      routes:
+        ## REST CLIENT --> http://localhost:4005/auth/**
+        ## API GATEWAY --> http://patient-service:4005/**
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        ## REST CLIENT --> http://localhost:4004/api/patients
         ## API GATEWAY --> http://patient-service:4000/patients
         ## PATIENT SERVICE (SB APP) --> /patients --> Patients []
         - id: patient-service-route
@@ -13,6 +22,7 @@ spring:
             - Path=/api/patients/**
           filters:
             - StripPrefix=1
+            - JwtValidation
         ## REST CLIENT --> http://localhost:4000/api-docs/patients
         ## API GATEWAY --> http://patient-service:4000/v3/api-docs
         - id: api-docs-patient-route

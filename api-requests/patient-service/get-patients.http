@@ -1,4 +1,5 @@
 ### GET request to get all patients from API Gateway
 GET http://localhost:4004/api/patients
+Authorization: Bearer {{auth_token}}
 
 ###
