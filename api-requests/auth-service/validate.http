@@ -1,0 +1,7 @@
+### Debug global variable
+GET http://localhost:4005/validate
+Authorization: Bearer {{token}}
+
+> {%
+    client.log("Current Token: " + client.global.get("auth_token"));
+%}
